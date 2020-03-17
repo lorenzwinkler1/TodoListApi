@@ -1,0 +1,27 @@
+﻿@page "{id:int?}"
+@model TodoList.Pages.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<h1>Edit</h1>
+@using (Html.BeginForm())
+{
+    <input type="hidden" asp-for="Item.Id" />
+    <div class="form-group">
+        <label for="titleform">Title</label>
+        <input type="text" asp-for="Item.Title" class="form-control" id="titleform" placeholder="Please enter the title">
+    </div>
+    <div class="form-group">
+        <label for="titleform">Due Date</label>
+        <input type="date" asp-for="Item.Due" class="form-control" id="titleform">
+    </div>
+    <div class="custom-control custom-switch">
+        <input asp-for="Item.IsDone" type="checkbox" class="custom-control-input" id="switchdone">
+        <label class="custom-control-label" for="switchdone">Done</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button href="/" type="button" class="btn btn-light">Cancel</button>
+
+}

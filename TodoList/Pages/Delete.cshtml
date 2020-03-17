@@ -1,0 +1,25 @@
+﻿@page "{id:int?}"
+@model TodoList.Pages.DeleteModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+@if (Model.TodoItem != null)
+{
+    <h2>Do you really Want to delete the Todo '@Model.TodoItem.Title' ?</h2>
+
+    @using (Html.BeginForm())
+    {
+        <button type="submit" class="btn btn-outline-primary btn-sm">Yes</button>
+        <a href="/" class="btn btn-outline-secondary btn-sm">No</a>
+
+    }
+}
+else
+{
+    <h2>Invalid Id</h2>
+    <a href="/" class="btn btn-outline-primary btn-sm">Back to the list</a>
+
+}
