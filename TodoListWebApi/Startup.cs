@@ -41,12 +41,16 @@ namespace TodoListWebApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.Use((context, next) =>
+                       {
+                           context.Response.Headers["Access-Control-Allow-Origin"] = "http://localhost:8061";
+                           return next.Invoke();
+                       });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
