@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TodoClassLibEF;
 using TodoClassLib;
+using System.IO;
 
 namespace TodoListWebApi.Controllers
 {
@@ -37,34 +38,50 @@ namespace TodoListWebApi.Controllers
         }
 
         // POST: api/Todo
+        //[HttpPost]
+        //public ActionResult<Todo> Post([FromBody] Todo value)
+        //{
+        //    if (value.Id != 0)
+        //        return BadRequest();
+        //    else if (this.repository.Create(value))
+        //    {
+        //        return value;
+        //    }
+        //    return BadRequest();
+        //}
         [HttpPost]
-        public ActionResult<Todo> Post([FromBody] Todo value)
+        public async Task<ActionResult<Todo>> Post()
         {
+            string body = await new StreamReader(Request.Body).ReadToEndAsync();
+            Todo value = Newtonsoft.Json.JsonConvert.DeserializeObject<Todo>(body);
             if (value.Id != 0)
                 return BadRequest();
             else if (this.repository.Create(value))
             {
-                return value;
+                return Ok(value);
             }
-            return BadRequest();
+            else
+            {
+                return BadRequest();
+            }
         }
 
-        // POST: api/Todo
-        [HttpPost("array")]
-        public ActionResult<IEnumerable<Todo>> Post([FromBody] Todo[] values)
-        {
-            for (int i = 0; i < values.Count(); i++)
-            {
-                var value = values[i];
-                if (value.Id != 0)
-                    return BadRequest();
-                else if (!this.repository.Create(value, i == values.Count() - 1))
-                {
-                    return BadRequest();
-                }
-            }
-            return values;
-        }
+        //// POST: api/Todo
+        //[HttpPost("array")]
+        //public ActionResult<IEnumerable<Todo>> Post([FromBody] Todo[] values)
+        //{
+        //    for (int i = 0; i < values.Count(); i++)
+        //    {
+        //        var value = values[i];
+        //        if (value.Id != 0)
+        //            return BadRequest();
+        //        else if (!this.repository.Create(value, i == values.Count() - 1))
+        //        {
+        //            return BadRequest();
+        //        }
+        //    }
+        //    return values;
+        //}
 
         // PUT: api/Todo/5
         [HttpPut]
